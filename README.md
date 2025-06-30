@@ -12,5 +12,5 @@ Gemini AI Clone – An AI assistant clone built with React and Gemini API.
     -Ask anything using Gemini API,
     -Responsive design,
 
--- Live Demo:
+# Live Demo:
     https://geminiiclone.netlify.app/

@@ -1,61 +1,56 @@
 import { assets } from "../assets/assets";
-import { useState } from "react";
 
-function Sidebar({onNewChat}) {
-  const [Open, SetOpen] = useState(false);
+function Sidebar({ onNewChat, chatHistory, onLoadChat, currentChatId }) {
+  const getChatTitle = (chat) => {
+    const firstUserMessage = chat.messages.find((msg) => msg.type === "user");
+    if (firstUserMessage) {
+      const text = firstUserMessage.content;
+      return text.length > 30 ? text.substring(0, 30) + "..." : text;
+    }
+    return "New chat";
+  };
 
   return (
-    <div className="flex h-screen flex-col gap-4 bg-gray-100 lg:p-3 sticky top-0 z-10">
-      
-      {/* DESKTOP MENUICON */}
-      <div
-        onClick={() => SetOpen((prev) => !prev)}
-        className="hover:bg-gray-200 w-12 rounded-4xl cursor-pointer"
+    <aside className="hidden md:flex w-56 h-full flex-col gap-3 bg-[var(--bg-sidebar)] border border-[var(--border-subtle)] rounded-lg p-3">
+      <div className="flex items-center gap-2 mb-2">
+        <img src={assets.gemini_icon} className="w-5 h-5" alt="Gemini logo" />
+        <span className="text-sm font-semibold">Gemini</span>
+      </div>
+
+      <button
+        onClick={onNewChat}
+        className="h-9 rounded-md bg-[var(--accent)] text-xs font-medium text-white px-3"
+        type="button"
       >
-        <img src={assets.menu_icon} className="w-6 m-3" />
+        New chat
+      </button>
+
+      <div className="mt-3 flex-1 overflow-y-auto">
+        <p className="text-[11px] text-[var(--text-secondary)] mb-2">History</p>
+        {chatHistory.length === 0 ? (
+          <p className="text-xs text-[var(--text-secondary)]">No chats yet</p>
+        ) : (
+          <div className="space-y-1">
+            {chatHistory.map((chat) => (
+              <button
+                key={chat.id}
+                onClick={() => onLoadChat(chat.id)}
+                className={`w-full text-left px-2 py-1.5 rounded-md text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] transition-colors ${
+                  currentChatId === chat.id
+                    ? "bg-[var(--bg-surface)] border border-[var(--border-subtle)]"
+                    : ""
+                }`}
+              >
+                <div className="truncate font-medium mb-0.5">
+                  {getChatTitle(chat)}
+                </div>
+                <div className="text-[10px] opacity-70">minutes ago</div>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
-
-      <div>
-        {/* NEW CHAT BUTTON and RECENTS */}
-        <div className="mt-3">
-          <button onClick={onNewChat} className="flex gap-2 h-10 px-4 py-2 bg-gray-200 cursor-pointer rounded-xl hover:bg-gray-300">
-            <img src={assets.plus_icon} className="w-4 cursor-pointer" />
-            {Open ? <p className=" font-bold text-gray-500">New Chat</p> : null}
-          </button>
-
-          <div className="mt-7 mx-3 flex flex-col gap-1 text-gray-900 text-sm">
-            {Open ? <p>Recents</p> : null}
-            {Open ? (
-              <p className="mt-1 flex gap-1">
-                <img src={assets.message_icon} className="w-5 h-6" /> what is
-                react js and node
-              </p>
-            ) : null}
-            {Open ? (
-              <p className="mt-1 flex gap-1">
-                <img src={assets.message_icon} className="w-5 h-6" /> what is react
-              </p>
-            ) : null}
-          </div>
-        </div>
-
-        {/* OPTIONS */}
-        <div className="ml-1 h-full w-full flex justify-end flex-col w-full text-gray-800">
-          <div className="flex gap-3 cursor-pointer hover:bg-gray-200 rounded-4xl p-2 w-11/12">
-            <img src={assets.question_icon} className="w-6" />
-            {Open ? <p>Help</p> : null}
-          </div>
-          <div className="flex gap-3 cursor-pointer hover:bg-gray-200 rounded-4xl p-2 w-11/12">
-            <img src={assets.history_icon} className="w-6" />
-            {Open ? <p>Activity</p> : null}
-          </div>
-          <div className="flex gap-3 cursor-pointer hover:bg-gray-200 rounded-4xl p-2 w-11/12">
-            <img src={assets.setting_icon} className="w-6" />
-            {Open ? <p>Settings</p> : null}
-          </div>
-        </div>
-      </div>
-    </div>
+    </aside>
   );
 }
 

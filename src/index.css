@@ -1,6 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 @import "tailwindcss";
 
-*{
-    font-family: Nunito, League Spartan;
+:root[data-theme="light"] {
+  --bg-root: #f7f8fa;
+  --bg-surface: #ffffff;
+  --bg-surface-secondary: #f0f2f5;
+  --bg-sidebar: #f0f2f5;
+  --bg-input: #f0f2f5;
+  --border-subtle: #d6dae0;
+  --text-primary: #1c1f23;
+  --text-secondary: #5f6670;
+  --accent: #6fa38c;
+}
+
+:root[data-theme="dark"] {
+  --bg-root: #0f1113;
+  --bg-surface: #161a1d;
+  --bg-surface-secondary: #1c2126;
+  --bg-sidebar: #1c2126;
+  --bg-input: #1c2126;
+  --border-subtle: #2a3036;
+  --text-primary: #e6e8eb;
+  --text-secondary: #a9b0b7;
+  --accent: #8fb7a1;
+}
+
+* {
+  font-family: Nunito, League Spartan;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--bg-root);
+  color: var(--text-primary);
 }
